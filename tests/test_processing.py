@@ -12,7 +12,7 @@ def test_replace_options():
 foo
 ::: target
     :option1: value1
-    :optiøn2: value2
+    :optiøn2: val ue2
 \t:option3:
     :option4:\x20
 bar
@@ -21,7 +21,7 @@ bar
     expected = """
 # Some content
 foo
-{'option1': 'value1', 'optiøn2': 'value2', 'option3': '', 'option4': ''}
+{'option1': 'value1', 'optiøn2': 'val ue2', 'option3': '', 'option4': ''}
 bar
 """.strip()
 
