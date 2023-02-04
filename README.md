@@ -125,6 +125,7 @@ The syntax for `mkdocs-click` blocks is the following:
     :prog_name: <PROG_NAME>
     :depth: <DEPTH>
     :style: <STYLE>
+    :recursive: <RECURSIVE>
 ```
 
 Options:
@@ -138,3 +139,4 @@ Options:
 - `show_hidden`: _(Optional, default: `False`)_ Show commands and options that are marked as hidden.
 - `list_subcommands`: _(Optional, default: `False`)_ List subcommands of a given command. If _attr_list_ is installed,
 add links to subcommands also.
+- `recursive`: _(Optional, default: `True`)_ Do not include detailed listings of subcommands.
