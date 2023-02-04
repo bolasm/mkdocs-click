@@ -20,6 +20,7 @@ def make_command_docs(
     show_hidden: bool = False,
     list_subcommands: bool = False,
     has_attr_list: bool = False,
+    recursive: bool = True,
 ) -> Iterator[str]:
     """Create the Markdown lines for a command and its sub-commands."""
     for line in _recursively_make_command_docs(
@@ -31,6 +32,7 @@ def make_command_docs(
         show_hidden=show_hidden,
         list_subcommands=list_subcommands,
         has_attr_list=has_attr_list,
+        recursive=recursive
     ):
         if line.strip() == "\b":
             continue
@@ -48,6 +50,7 @@ def _recursively_make_command_docs(
     show_hidden: bool = False,
     list_subcommands: bool = False,
     has_attr_list: bool = False,
+    recursive: bool = True,
 ) -> Iterator[str]:
     """Create the raw Markdown lines for a command and its sub-commands."""
     ctx = _build_command_context(prog_name=prog_name, command=command, parent=parent)
@@ -75,6 +78,10 @@ def _recursively_make_command_docs(
         )
 
     for command in subcommands:
+        if isinstance(command, click.Group):
+            if not recursive:
+                continue
+
         yield from _recursively_make_command_docs(
             cast(str, command.name),
             command,
