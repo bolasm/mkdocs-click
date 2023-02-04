@@ -79,9 +79,8 @@ def _recursively_make_command_docs(
         )
     
     for command in subcommands:
-        if isinstance(command, click.Group):
-            if not recursive:
-                continue
+        if isinstance(command, click.Group) and not recursive:
+            continue
 
         yield from _recursively_make_command_docs(
             cast(str, command.name),
@@ -92,6 +91,7 @@ def _recursively_make_command_docs(
             show_hidden=show_hidden,
             list_subcommands=list_subcommands,
             has_attr_list=has_attr_list,
+            recursive=recursive
         )
 
 
