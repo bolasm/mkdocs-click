@@ -21,7 +21,6 @@ def make_command_docs(
     list_subcommands: bool = False,
     has_attr_list: bool = False,
     recursive: bool = True,
-
 ) -> Iterator[str]:
     """Create the Markdown lines for a command and its sub-commands."""
     for line in _recursively_make_command_docs(
@@ -77,10 +76,11 @@ def _recursively_make_command_docs(
             has_attr_list=has_attr_list,
             show_hidden=show_hidden,
         )
-    
+
     for command in subcommands:
-        if isinstance(command, click.Group) and not recursive:
-            continue
+        if isinstance(command, click.Group):
+            if not recursive:
+                continue
 
         yield from _recursively_make_command_docs(
             cast(str, command.name),
