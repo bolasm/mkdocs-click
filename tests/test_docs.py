@@ -346,3 +346,63 @@ def test_show_options():
 
     assert opt_hidden.hidden
     assert not opt_normal.hidden
+
+
+def test_show_subgroups():
+    
+    expected = """# main
+
+Main entrypoint for this dummy program
+
+**Usage:**
+
+```
+main [OPTIONS] COMMAND [ARGS]...
+```
+
+**Options:**
+
+```
+  --help  Show this message and exit.
+```
+
+**Subcommands**
+
+- *foo*: *No description was provided with this command.*
+- *subgroup*: The bar command
+
+## foo
+
+**Usage:**
+
+```
+main foo [OPTIONS]
+```
+
+**Options:**
+
+```
+  --help  Show this message and exit.
+```"""
+
+    @click.group()
+    def main():
+        """Main entrypoint for this dummy program"""
+
+    @click.command()
+    def foo():  # No description
+        pass  # pragma: no cover
+
+    @click.group()
+    def subgroup():
+        """The bar command"""
+
+    @subgroup.command()
+    def sub_command():  # No description
+        pass  # pragma: no cover
+
+    main.add_command(foo)
+    main.add_command(subgroup)
+
+    output = "\n".join(make_command_docs("main", main, recursive=False, list_subcommands=True))
+    assert output.strip() == expected.strip()
